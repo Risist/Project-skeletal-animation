@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Re\Common\Operators.cpp">
+      <Filter>Re\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\RandomChance.cpp">
+      <Filter>Re\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Settings.cpp">
+      <Filter>Re\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Math\Math.cpp">
+      <Filter>Re\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Math\Transform.cpp">
+      <Filter>Re\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Math\Vector2D.cpp">
+      <Filter>Re\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Math\Angle.cpp">
+      <Filter>Re\Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlTimer.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlAxis.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlInput.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlKey.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlMouseDrag.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Common\Control\ControlMultiKey.cpp">
+      <Filter>Re\Common\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\ResourceManager.cpp">
+      <Filter>Re\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Camera.cpp">
+      <Filter>Re\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiText.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\Gui.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiBase.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiButton.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiCheckBox.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiColorBar.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiInspector.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiMenu.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiNamedButton.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiProgressBar.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiScrollBar.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Gui\GuiSetBar.cpp">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\State\GameStateLambda.cpp">
+      <Filter>Re\Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\State\GameStateManager.cpp">
+      <Filter>Re\Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Game\State\GameState.cpp">
+      <Filter>Re\Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\EditorState.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsAnimationStep.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsModelDef.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsAnimationPart.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsAnimationController.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Re">
+      <UniqueIdentifier>{437a5508-b24a-4a56-a712-9ef8d8e96e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Common">
+      <UniqueIdentifier>{466eee13-d943-4b3f-9633-486c5b0cf28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Common\Math">
+      <UniqueIdentifier>{262bbc61-684e-4b2d-b187-d0e34d86def1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Common\Control">
+      <UniqueIdentifier>{5a4beac9-370c-429d-b216-ab7a59a74ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Common\Scripts">
+      <UniqueIdentifier>{4bd6bcb1-a7b3-4ac8-b176-84eee102cecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Common\Struct">
+      <UniqueIdentifier>{0cb72302-9bc8-4b6d-bb55-c4feb9adb79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Graphics">
+      <UniqueIdentifier>{bccad384-ca0d-4c25-ae78-8e550ddef71e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Graphics\Gui">
+      <UniqueIdentifier>{57b845c3-9a69-4c51-afc4-df9c061e136a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Game">
+      <UniqueIdentifier>{da8e1d81-ab4b-482f-8a78-37be949258ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Re\Game\State">
+      <UniqueIdentifier>{55abf285-c79a-4476-b8f6-1bedfa8c77cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{5752fa1d-abc0-4ebd-9c44-f83982a8bbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{68c54311-1d33-4349-bcd3-ea09493ad86f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\GuiTemplates">
+      <UniqueIdentifier>{5fc8a400-0f67-4b37-a012-102b9a023261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{571fb137-5785-4711-8d31-0b89ff4af085}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Re\Common\utility.h">
+      <Filter>Re\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Operators.h">
+      <Filter>Re\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\RandomChance.h">
+      <Filter>Re\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Settings.h">
+      <Filter>Re\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Scripts\ResISerialisable.h">
+      <Filter>Re\Common\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Scripts\ResScripts.h">
+      <Filter>Re\Common\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Scripts\ResDataScriptLoader.h">
+      <Filter>Re\Common\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Scripts\ResDataScriptSaver.h">
+      <Filter>Re\Common\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Struct\binarytree.h">
+      <Filter>Re\Common\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Math\Angle.h">
+      <Filter>Re\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Math\Math.h">
+      <Filter>Re\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Math\NewtonianResource.h">
+      <Filter>Re\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Math\Transform.h">
+      <Filter>Re\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Math\Vector2D.h">
+      <Filter>Re\Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlMultiKey.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlTimer.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\Control.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlAxis.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlInput.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlKey.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Common\Control\ControlMouseDrag.h">
+      <Filter>Re\Common\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\ResourceManager.h">
+      <Filter>Re\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Camera.h">
+      <Filter>Re\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Graphics.h">
+      <Filter>Re\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiSetBar.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiSpecial.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiText.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\Gui.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiBase.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiButton.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiCheckBox.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiColorBar.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiInspector.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiMenu.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiNamedButton.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiProgressBar.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Gui\GuiScrollBar.h">
+      <Filter>Re\Graphics\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\ReEngine.h">
+      <Filter>Re</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\State\GameStateLambda.h">
+      <Filter>Re\Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\State\GameStateManager.h">
+      <Filter>Re\Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Game\State\GameState.h">
+      <Filter>Re\Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\EditorState.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsAnimationStep.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsModelDef.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsAnimationPart.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsAnimationController.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\Resources.txt">
+      <Filter>Resource</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\Button.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\ButtonHalf.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\CheckBox.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\model.txt">
+      <Filter>Resource</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

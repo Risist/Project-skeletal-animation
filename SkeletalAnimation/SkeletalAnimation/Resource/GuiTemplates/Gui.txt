@@ -1,0 +1,15 @@
+<>
+	
+	<type = Inspector; halfWhX = 125; halfWhY = 200; posX = 135; posY = 210;
+	fieldLenght = 500;
+
+	backClR = 75; backClG = 75; backClB = 75;backClA = 200; 
+
+	onClR = 125; onClG = 125; onClB = 150;
+	outClR = 100; outClG = 100; outClB = 150;
+	pressClR = 150; pressClG = 100; pressClB = 100;
+	>
+		<type = Include;path =ModelSelector.txt; posY = -150; name = modelSelector>
+		<type = Include;path =ColorBar.txt; posY = 0>
+	<\>
+<\>
