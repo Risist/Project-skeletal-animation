@@ -106,6 +106,10 @@ namespace Graphics
 		AnimationStepHolder(std::istream& file, Res::DataScriptLoader& loader, Step_t *_step = nullptr) 
 			: step(_step) { deserialiseF(file, loader); }
 
+		void setStepPtr(Step_t *s)
+		{
+			step = s;
+		}
 
 	public:
 		/// gets step which should be used to compute animation

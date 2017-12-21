@@ -8,10 +8,10 @@ namespace Graphics
 	{
 	}
 
-	void AnimationController::onUpdate() const
+	void AnimationController::update() const
 	{
 		for (auto &it : parts)
-			it.onUpdate();
+			it.update();
 	}
 
 	void AnimationController::applyPose() const
@@ -29,56 +29,77 @@ namespace Graphics
 
 	void AnimationController::attachToModel(vector<ModelPart*>& model)
 	{
-		for (auto&it : parts)
+		parts.clear();
+		for (auto&it : model)
 		{
-			assert(it.modelId < model.size());
-			it.attachToModel(model[it.modelId]);
+			parts.push_back(AnimationPart());
+			parts.back().setModelPart(it);
+
+			parts.back().setStepPtr(&step);
 		}
 	}
 	void AnimationController::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
-#ifdef RE_ENGINE
-		/// animation serialization available only in editor
-		/// TODO
-#endif // RE_ENGINE
+		AnimationStep::serialiseF(file, saver);
+
+		/*saver.nextLine(file);
+		for (int i = 0; i < parts.size(); ++i)
+		{
+			saver.save("time", parts[i].time);
+
+			saver.save("posX", it->def.position.x, ModelDef::zero.position.x);
+			saver.save("posY", it->def.position.y, ModelDef::zero.position.y);
+
+			saver.save("scaleX", it->def.scale.x, ModelDef::zero.scale.x);
+			saver.save("scaleY", it->def.scale.y, ModelDef::zero.scale.y);
+
+			saver.save("rot", it->def.rotation.asDegree(), ModelDef::zero.rotation.asDegree());
+			saver.save("mineRot", it->def.mineRotation.asDegree(), ModelDef::zero.mineRotation.asDegree());
+
+			saver.save("clR", it->def.color.r, ModelDef::zero.color.r);
+			saver.save("clG", it->def.color.g, ModelDef::zero.color.g);
+			saver.save("clB", it->def.color.b, ModelDef::zero.color.b);
+			saver.save("clA", it->def.color.a, ModelDef::zero.color.a);
+
+
+			saver.nextLine(file);
+		}
+
+		saver.setEndLine();*/
 	}
 
 	void AnimationController::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
 	{
 		AnimationStep::deserialiseF(file, loader);
 
-		/// here will be saved all the parts to allow to find them by id
-		map<size_t, AnimationPart> modelMap;
-
 		DATA_SCRIPT_MULTILINE(file, loader)
 		{
 			size_t modelId = loader.load<size_t>("model", 0);
-			
-			ModelDef def;
-			{
-				def.position.x = loader.load("posX", ModelDef::zero.position.x);
-				def.position.y = loader.load("posY", ModelDef::zero.position.y);
+			assert(parts.size() > modelId);
 
-				def.scale.x = loader.load("scaleX", ModelDef::zero.scale.x);
-				def.scale.y = loader.load("scaleY", ModelDef::zero.scale.y);
+			Keystone ks;
+			ks.time = loader.load("time", 0.f);
 
-				def.rotation = Degree(loader.load("rot", ModelDef::zero.rotation.asDegree()));
-				def.mineRotation = Degree(loader.load("mineRot", ModelDef::zero.mineRotation.asDegree()));
+			ks.def.position.x = loader.load("posX", ModelDef::zero.position.x);
+			ks.def.position.y = loader.load("posY", ModelDef::zero.position.y);
 
-				def.color.r = loader.load("clR", ModelDef::zero.color.r);
-				def.color.g = loader.load("clG", ModelDef::zero.color.g);
-				def.color.b = loader.load("clB", ModelDef::zero.color.b);
-				def.color.a = loader.load("clA", ModelDef::zero.color.a);
-			}
+			ks.def.scale.x = loader.load("scaleX", ModelDef::zero.scale.x);
+			ks.def.scale.y = loader.load("scaleY", ModelDef::zero.scale.y);
 
-			modelMap[modelId].addKeyStone(def, loader.load<Step_t>("step", 0.f) );
+			ks.def.rotation = Degree(loader.load("rot", ModelDef::zero.rotation.asDegree()));
+			ks.def.mineRotation = Degree(loader.load("mineRot", ModelDef::zero.mineRotation.asDegree()));
+
+			ks.def.color.r = loader.load("clR", ModelDef::zero.color.r);
+			ks.def.color.g = loader.load("clG", ModelDef::zero.color.g);
+			ks.def.color.b = loader.load("clB", ModelDef::zero.color.b);
+			ks.def.color.a = loader.load("clA", ModelDef::zero.color.a);
+
+			parts[modelId].addKeystone(ks);
 		}
 
-		for (auto it : modelMap)
+		for (auto &it : parts)
 		{
-			it.second.finaliseKeystones();
-			it.second.modelId = it.first;
-			addPart(it.second);
+			it.sortKeystones();
 		}
 	}
 

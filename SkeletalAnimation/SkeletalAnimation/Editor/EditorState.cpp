@@ -9,17 +9,25 @@ namespace Editor
 			->setPosition({ 500.f, 500.f } )
 			->setName("button")
 			;*/
-		static Transformable t;
+
+
+		static Math::Transform t;
+		
 		model.setParent(&t);
 		model.deserialise("Resource\\model.txt");
+		model.createOrder();
+
+		animation.attachToModel(model.partsUpdate);
+		animation.deserialise("Resource\\animation.txt");
+
 	}
 
 	Game::State * StateModel::onUpdate(sf::Time dt)
 	{
-
+		animation.updateReturn();
 		cam.display(wnd);
-		model.onUpdate();
-		model.onDraw(cam, RenderStates::Default);
+		animation.update();
+		model.draw(cam);
 
 		Gui::gui.onUpdate(wnd, RenderStates::Default);
 

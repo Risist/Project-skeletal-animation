@@ -1,6 +1,7 @@
 #pragma once
 #include <Re\ReEngine.h>
 #include <Re\Graphics\Model\GraphicsModel.h>
+#include <Re\Graphics\Model\GraphicsAnimationPart.h>
 
 namespace Editor
 {
@@ -13,7 +14,9 @@ namespace Editor
 		virtual void onExit() override;
 
 	private:
-		Graphics::ModelPart model;
+		Graphics::Model model;
+		Graphics::AnimationController animation;
+
 		void loadResources();
 
 	};

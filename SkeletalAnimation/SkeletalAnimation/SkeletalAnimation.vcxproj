@@ -152,6 +152,7 @@
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationController.cpp" />
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationPart.cpp" />
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationStep.cpp" />
+    <ClCompile Include="Re\Graphics\Model\GraphicsKeystone.cpp" />
     <ClCompile Include="Re\Graphics\Model\GraphicsModel.cpp" />
     <ClCompile Include="Re\Graphics\Model\GraphicsModelDef.cpp" />
     <ClCompile Include="Re\Graphics\ResourceManager.cpp" />
@@ -200,12 +201,14 @@
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationController.h" />
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationPart.h" />
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationStep.h" />
+    <ClInclude Include="Re\Graphics\Model\GraphicsKeystone.h" />
     <ClInclude Include="Re\Graphics\Model\GraphicsModel.h" />
     <ClInclude Include="Re\Graphics\Model\GraphicsModelDef.h" />
     <ClInclude Include="Re\Graphics\ResourceManager.h" />
     <ClInclude Include="Re\ReEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Resource\animation.txt" />
     <Text Include="Resource\GuiTemplates\Button.txt" />
     <Text Include="Resource\GuiTemplates\ButtonHalf.txt" />
     <Text Include="Resource\GuiTemplates\CheckBox.txt" />

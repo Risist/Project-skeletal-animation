@@ -85,6 +85,10 @@ namespace Res
 		{
 			return _line;
 		}
+		void insert(const char* s)
+		{
+			_line += s;
+		}
 
 	protected:
 		std::string _line;

@@ -110,6 +110,9 @@
     <ClCompile Include="Re\Graphics\Model\GraphicsAnimationController.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Re\Graphics\Model\GraphicsKeystone.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Re">
@@ -297,6 +300,9 @@
     <ClInclude Include="Re\Graphics\Model\GraphicsAnimationController.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="Re\Graphics\Model\GraphicsKeystone.h">
+      <Filter>Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\Resources.txt">
@@ -312,6 +318,9 @@
       <Filter>Resource\GuiTemplates</Filter>
     </Text>
     <Text Include="Resource\model.txt">
+      <Filter>Resource</Filter>
+    </Text>
+    <Text Include="Resource\animation.txt">
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>

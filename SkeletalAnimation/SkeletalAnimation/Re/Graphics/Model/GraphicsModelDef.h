@@ -7,7 +7,6 @@ namespace Graphics
 	/*
 	*	class holding all animatable propertites of model 
 	*	like color, pos, rotation, scale ect.
-	*	
 	*/
 	class ModelDef : public Res::ISerialisable
 	{
@@ -23,8 +22,11 @@ namespace Graphics
 
 		Vector2D position;
 		Vector2D scale{ Vector2D(1,1) };
+		/// model color, clamped at range [0,255]
 		Color_f color;
+		/// rotation of sprite and its childs
 		Angle rotation,
+			/// rotation of sprite only
 			mineRotation;
 
 	public: /// operators section
