@@ -37,6 +37,22 @@ namespace Gui
 
 		////// setters
 
+		SetBar* setMinimalValue(float32 v)
+		{
+			minimalValue = v;
+			return this;
+		}
+		SetBar* setMaximalValue(float32 v)
+		{
+			maximalValue = v;
+			return this;
+		}
+		SetBar* setValueRange(float32 min, float32 max)
+		{
+			minimalValue = min;
+			maximalValue = max;
+			return this;
+		}
 		SetBar* setProgress(float32 s)
 		{
 			progress = s;

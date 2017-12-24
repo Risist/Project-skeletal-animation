@@ -212,6 +212,7 @@
     <Text Include="Resource\GuiTemplates\Button.txt" />
     <Text Include="Resource\GuiTemplates\ButtonHalf.txt" />
     <Text Include="Resource\GuiTemplates\CheckBox.txt" />
+    <Text Include="Resource\GuiTemplates\SetBar.txt" />
     <Text Include="Resource\model.txt" />
     <Text Include="Resource\Resources.txt" />
   </ItemGroup>

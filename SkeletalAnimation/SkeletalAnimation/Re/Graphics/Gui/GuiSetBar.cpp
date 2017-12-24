@@ -16,21 +16,24 @@ namespace Gui
 
 		bPlus.setPressEvent( [this]() { 
 				if (repetitionTimer.isReadyRestart() == false) return; 
-				progress += increaseValue();
+				progress = clamp(progress + increaseValue(), minimalValue, maximalValue);
 				eventUpdateProgress(progress); 
 				updateProgress();
 		});
 		bMinus.setPressEvent( [this]() { 
 			if (repetitionTimer.isReadyRestart() == false) return;
-			progress -= increaseValue(); eventUpdateProgress(progress);
+			progress = clamp(progress - increaseValue(), minimalValue, maximalValue); 
+			eventUpdateProgress(progress);
 			updateProgress();
 		});
 		bBar.setPressEvent( [this]() { 
 			if (repetitionTimer.isReadyRestart() == false) return;
-			progress = initialValue; eventUpdateProgress(progress); 
+			progress = initialValue; 
+			eventUpdateProgress(progress); 
 			updateProgress();
 		});
 
+		//eventUpdateProgress(progress);
 		updateProgress();
 	}
 

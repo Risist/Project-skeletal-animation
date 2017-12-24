@@ -42,30 +42,32 @@ namespace Graphics
 	{
 		AnimationStep::serialiseF(file, saver);
 
-		/*saver.nextLine(file);
-		for (int i = 0; i < parts.size(); ++i)
+		saver.nextLine(file);
+		for (int modelId = 0; modelId < parts.size(); ++modelId)
+			for (int keyId = 0; keyId < parts[modelId].keystones.size(); ++keyId)
 		{
-			saver.save("time", parts[i].time);
+			saver.save("model", modelId);
+			auto &it = parts[modelId].keystones[keyId];
+			saver.save("time", it.time);
 
-			saver.save("posX", it->def.position.x, ModelDef::zero.position.x);
-			saver.save("posY", it->def.position.y, ModelDef::zero.position.y);
+			saver.save("posX", it.def.position.x, ModelDef::zero.position.x);
+			saver.save("posY", it.def.position.y, ModelDef::zero.position.y);
 
-			saver.save("scaleX", it->def.scale.x, ModelDef::zero.scale.x);
-			saver.save("scaleY", it->def.scale.y, ModelDef::zero.scale.y);
+			saver.save("scaleX", it.def.scale.x, ModelDef::zero.scale.x);
+			saver.save("scaleY", it.def.scale.y, ModelDef::zero.scale.y);
 
-			saver.save("rot", it->def.rotation.asDegree(), ModelDef::zero.rotation.asDegree());
-			saver.save("mineRot", it->def.mineRotation.asDegree(), ModelDef::zero.mineRotation.asDegree());
+			saver.save("rot", it.def.rotation.asDegree(), ModelDef::zero.rotation.asDegree());
+			saver.save("mineRot", it.def.mineRotation.asDegree(), ModelDef::zero.mineRotation.asDegree());
 
-			saver.save("clR", it->def.color.r, ModelDef::zero.color.r);
-			saver.save("clG", it->def.color.g, ModelDef::zero.color.g);
-			saver.save("clB", it->def.color.b, ModelDef::zero.color.b);
-			saver.save("clA", it->def.color.a, ModelDef::zero.color.a);
-
+			saver.save("clR", it.def.color.r, ModelDef::zero.color.r);
+			saver.save("clG", it.def.color.g, ModelDef::zero.color.g);
+			saver.save("clB", it.def.color.b, ModelDef::zero.color.b);
+			saver.save("clA", it.def.color.a, ModelDef::zero.color.a);
 
 			saver.nextLine(file);
 		}
 
-		saver.setEndLine();*/
+		saver.setEndLine();
 	}
 
 	void AnimationController::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)

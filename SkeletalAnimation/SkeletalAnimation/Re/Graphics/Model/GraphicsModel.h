@@ -6,18 +6,18 @@
 
 namespace Graphics
 {
-	
+
 	/*
 	Models are divaded into parts. Each individual part is a single Sprite.
 	Sprites are displayed according to its parent which has to be set up before drawing process
 
 	Models can be loaded from Res files:
-	< ts = 0; posX = 0; posY = 0; scaleX = 0; scaleY = 0; 
-		originX = 0; originY = 0; rot = 0; mineRot = 0; 
-		clR = 255; clG = 255; clB = 255; clA = 255; >
-		
-		<another model def><\>
-		...
+	< ts = 0; posX = 0; posY = 0; scaleX = 0; scaleY = 0;
+	originX = 0; originY = 0; rot = 0; mineRot = 0;
+	clR = 255; clG = 255; clB = 255; clA = 255; >
+
+	<another model def><\>
+	...
 	<\>
 
 	clR, clG, clB, clA - clolor filter in rgba canals
@@ -56,13 +56,16 @@ namespace Graphics
 		void setOrigin(const Vector2D& s) { sp.setOrigin(s + Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f)); }
 		void setTexture(ResId _tsId) { tsId = _tsId; tsInst[tsId].set(sp); }
 		/// parent transform
-		void setParent(Math::Transform* s, vector<unique_ptr<ModelPart>>* _parts = nullptr) { parent = s; parts = _parts; }
+		void setParent(Math::Transform* s, vector<unique_ptr<ModelPart>>* _parts) { parent = s; parts = _parts; }
+		void setParent(Math::Transform* s) { parent = s; }
 
 
 		////// getters
 		Vector2D getOrigin() const { return sp.getOrigin(); }
 		Color getColor() const { return sp.getColor(); }
-
+		ResId getTextureId() const { return tsId; }
+		const Texture* getTexture() const { return sp.getTexture(); }
+		Vector2D getTextureWh() const { return Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f); }
 
 		/// default display data of the model (soo called T-pose in case of humanoids)
 		ModelDef baseDef;
@@ -121,9 +124,16 @@ namespace Graphics
 		////// getters
 
 		ModelPart* getChildUp() const { return childUp; }
-		ModelPart* getChildDown() const { return childUp; }
-		ModelPart* getSibling() const { return childUp; }
+		ModelPart* getChildDown() const { return childDown; }
+		ModelPart* getSibling() const { return sibling; }
 
+		void removeBranchChildUp();
+		void removeBranchChildDown();
+		void removeBranchSibling();
+
+		void removehChildUp();
+		void removeChildDown();
+		void removeSibling();
 
 		////// utility
 
@@ -171,7 +181,7 @@ namespace Graphics
 
 	class Model : public ModelPart
 	{
-	public: 
+	public:
 		Model();
 		Model(ResId tsId, ModelDef def = ModelDef::default, const Vector2D& origin = Vector2D());
 		Model(const std::string& path);
@@ -179,11 +189,7 @@ namespace Graphics
 		void draw(sf::RenderTarget& target, sf::RenderStates states = RenderStates::Default);
 
 
-		
-		void allocateChild(ModelPart* s)
-		{
-			parts.push_back( unique_ptr<ModelPart>(s) );
-		}
+
 		void createOrder()
 		{
 			partsRendering.clear();
@@ -192,69 +198,11 @@ namespace Graphics
 			rewriteTo_Bfs(partsUpdate);
 		}
 
-	
+
 		/// vectors of right order
 		vector<ModelPart*> partsRendering;
 		vector<ModelPart*> partsUpdate;
 	private:
 		vector<unique_ptr<ModelPart> > parts;
 	};
-
-
-
-	
-	/*class ModelPart : 
-		/// tree structure of Models
-		/// childs can be placed above or under this one
-		/// Parent is treated as any Transormable so eg. Actor can be used as one
-		public BinaryTree<ModelPart, sf::Transformable>,
-		/// data about current model part placement in the world
-		public sf::Transformable,
-		public Res::ISerialisable
-	{
-	public:
-		ModelPart();
-
-		void onUpdate(); 
-		void onDraw(sf::RenderTarget& target, sf::RenderStates states);
-
-		void applayAnimation(const ModelDef& def);
-
-		/// permanently edits model statistics
-		void applayPose(const ModelDef& def)
-		{
-			baseDef += def;
-		}
-
-		////// setters
-		void setOrigin(const Vector2D& s) { sp.setOrigin(s + Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f)); }
-		void setTexture(ResId tsId) { tsInst[tsId].set(sp); }
-
-		////// getters
-		Vector2D getOrigin() const { return sp.getOrigin(); }
-		Color getColor() const { return sp.getColor(); }
-		
-		Vector2D getPosition() const { return Transformable::getPosition(); }
-		Angle getRotation() const { return Degree(Transformable::getRotation()); }
-
-		ModelDef getBaseDef()
-		{
-			return baseDef;
-		}
-
-	private:
-		sf::Sprite sp;
-
-		using sf::Transformable::move;
-		using sf::Transformable::scale;
-
-	private:
-		ModelDef baseDef;
-		/// animation influences
-		ModelDef animationDef;
-
-	protected:
-		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
-		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
-	};*/
-}	
+}

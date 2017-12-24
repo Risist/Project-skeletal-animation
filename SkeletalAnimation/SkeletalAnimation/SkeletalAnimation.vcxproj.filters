@@ -323,5 +323,8 @@
     <Text Include="Resource\animation.txt">
       <Filter>Resource</Filter>
     </Text>
+    <Text Include="Resource\GuiTemplates\SetBar.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -52,7 +52,8 @@ namespace Graphics
 	{
 		ModelDef def = baseDef + animationDef;
 
-		setPosition(def.position.getRotated(def.rotation + parent->getRotation()) + parent->getPosition());
+		Vector2D pos = def.position.getRotated(def.rotation + parent->getRotation());
+		setPosition( Vector2D(pos.x * parent->getScale().x, pos.y * parent->getScale().y) + parent->getPosition());
 		setRotation(def.rotation + parent->getRotation());
 		setScale(def.scale * parent->getScale());
 
@@ -73,35 +74,39 @@ namespace Graphics
 	{
 		std::string myUd = saver.getLine();
 
-		baseDef.serialise(file, saver);
 		saver.save("ts", tsId, (ResId)0);
+		baseDef.serialise(file, saver);
 		saver.save("originX", sp.getOrigin().x - sp.getTextureRect().width  * 0.5f, 0.f);
 		saver.save("originY", sp.getOrigin().y - sp.getTextureRect().height * 0.5f, 0.f);
 
 		saver.nextLine(file);
 
-		auto it = getChildUp();
+		auto it = childUp;
 		while(it != nullptr)
 		{
 			saver.save("ud", "up");
 			it->serialise(file, saver);	
-			++it;
+			it = it->sibling;
 			saver.nextLine(file);
 		}
-		it = getChildUp();
+		it = childDown;
 		while (it != nullptr)
 		{
-			saver.save("ud", "down");
+			//saver.save("ud", "down"); /// default value
 			it->serialise(file, saver);
-			++it;
+			it = it->sibling; 
 			saver.nextLine(file);
 		}
 		saver.setEndLine();
 		
-		it = getSibling();
-		saver.save("ud", myUd.data() );
-		it->serialise(file, saver);
-		++it;
+		if (it = sibling)
+		{
+			saver.nextLine(file);
+			saver.save<string>("ud", myUd.data(), "down");
+			it->serialise(file, saver);
+			it = it->sibling;
+		}
+
 	}
 
 	void ModelPart::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
@@ -132,6 +137,74 @@ namespace Graphics
 
 			m->deserialise(file, loader);
 		}
+	}
+
+	void ModelPart::removeBranchChildUp()
+	{
+		if (childUp)
+		{
+			childUp->removeBranchChildDown();
+			childUp->removeBranchChildUp();
+			childUp->removeBranchSibling();
+
+			if (parts)
+				for (auto it = parts->begin(); it != parts->end(); ++it)
+					if (it->get() == childUp)
+						parts->erase(it);
+
+			childUp = nullptr;
+		}
+	}
+
+	void ModelPart::removeBranchChildDown()
+	{
+		if (childDown)
+		{
+			childDown->removeBranchChildDown();
+			childDown->removeBranchChildUp();
+			childDown->removeBranchSibling();
+
+			if (parts)
+				for (auto it = parts->begin(); it != parts->end(); ++it)
+					if (it->get() == childDown)
+						parts->erase(it);
+
+
+			childDown = nullptr;
+		}
+	}
+
+	void ModelPart::removeBranchSibling()
+	{
+		if (sibling)
+		{
+			sibling->removeBranchChildDown();
+			sibling->removeBranchChildUp();
+			sibling->removeBranchSibling();
+
+			if (parts)
+				for (auto it = parts->begin()	; it != parts->end(); ++it)
+					if (it->get() == sibling)
+						parts->erase(it);
+
+
+			sibling = nullptr;
+		}
+	}
+
+	void ModelPart::removehChildUp()
+	{
+		// TODO
+	}
+
+	void ModelPart::removeChildDown()
+	{
+		// TODO
+	}
+
+	void ModelPart::removeSibling()
+	{
+		// TODO
 	}
 
 	void ModelPart::rewriteTo_Dfs(std::vector<ModelPart*>& v)
@@ -189,7 +262,7 @@ namespace Graphics
 	{
 		ModelPart::parts = &parts;
 	}
-
+	
 	Model::Model(const std::string & path)
 	{
 		ModelPart::parts = &parts;

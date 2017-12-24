@@ -1,9 +1,14 @@
-<type =SetBar; halfWhX = 100; halfWhY = 13; 
-		buttonSize = 15; txtSize=20; 
-		backClR = 150; backClG = 150; backClB = 150;
-		
-		onClR = 100; onClG = 75; onClB = 75;
-		outClR = 50; outClG = 50; outClB = 50;
-		pressClR = 150; pressClG = 100; pressClB = 100; 
-		timerCd = 0.175;
-	>
+<type =SetBar; whX = 220; whY = 25; 
+buttonLenght = 30; txtSize=20;
+
+ 
+barOnClR = 100; barOnClG = 75; barOnClB = 75;
+barOutClR = 75; barOutClG = 75; barOutClB = 75;
+barPressClR = 175; barPressClG = 125; barPressClB = 125;
+
+buttonOnClR = 100; buttonOnClG = 75; buttonOnClB = 75;
+buttonOutClR = 50; buttonOutClG = 50; buttonOutClB = 50;
+buttonPressClR = 150; buttonPressClG = 100; buttonPressClB = 100;
+
+repetitionRate = 0.15;
+>
