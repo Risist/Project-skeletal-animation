@@ -43,6 +43,18 @@ namespace Graphics
 		animationDef = ModelDef::zero;
 	}
 
+	void ModelPart::drawBoundingBox(sf::RenderTarget & target, sf::RenderStates states)
+	{
+		sf::RectangleShape rect;
+		rect.setSize({sp.getGlobalBounds().width, sp.getGlobalBounds().height});
+		rect.setPosition(sp.getGlobalBounds().left, sp.getGlobalBounds().top);
+		rect.setOrigin({0,0});
+		rect.setFillColor(Color::Transparent);
+		rect.setOutlineThickness(3.f);
+		rect.setOutlineColor(Color::Green);
+		target.draw(rect, states);
+	}
+
 	void ModelPart::applayAnimation(const ModelDef & def)
 	{
 		animationDef += def;
@@ -150,7 +162,10 @@ namespace Graphics
 			if (parts)
 				for (auto it = parts->begin(); it != parts->end(); ++it)
 					if (it->get() == childUp)
+					{
 						parts->erase(it);
+						break;
+					}
 
 			childUp = nullptr;
 		}
@@ -167,7 +182,10 @@ namespace Graphics
 			if (parts)
 				for (auto it = parts->begin(); it != parts->end(); ++it)
 					if (it->get() == childDown)
+					{
 						parts->erase(it);
+						break;
+					}
 
 
 			childDown = nullptr;
@@ -185,8 +203,10 @@ namespace Graphics
 			if (parts)
 				for (auto it = parts->begin()	; it != parts->end(); ++it)
 					if (it->get() == sibling)
+					{
 						parts->erase(it);
-
+						break;
+					}
 
 			sibling = nullptr;
 		}
@@ -205,6 +225,11 @@ namespace Graphics
 	void ModelPart::removeSibling()
 	{
 		// TODO
+	}
+
+	void Graphics::ModelPart::prepareToRemove()
+	{
+
 	}
 
 	void ModelPart::rewriteTo_Dfs(std::vector<ModelPart*>& v)

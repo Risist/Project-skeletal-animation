@@ -7,21 +7,27 @@
 namespace Gui
 {
 
-	/*class ColorBar : public Menu
+	class ColorBar : public Menu
 	{
 		SERIALISATION_NAME(ColorBar);
 	public:
 		ColorBar();
 
+	public: /////// events
 		virtual void onUpdate(RenderTarget& wnd, RenderStates states) override;
 
-		/// setters
+	public: ////// setters
 
 		/// set color represented by color bar
-		ColorBar* setColor(Color cl);
-		ColorBar* setBaseColor(Color cl)
+		ColorBar* setColorValue(Color cl);
+		ColorBar* setColorMin(Color cl)
 		{
-			barBaseColor = cl;
+			barColorMin = cl;
+			return this;
+		}
+		ColorBar* setColorMax(Color cl)
+		{
+			barColorMax = cl;
 			return this;
 		}
 		ColorBar* setEvent(function<void(Color cl)> ev)
@@ -29,27 +35,42 @@ namespace Gui
 			eventUpdate = ev;
 			return this;
 		}
-
+		ColorBar* setWh(const Vector2D& wh, float32 barHole, float32 buttonSize);
+		REDEFINE_SETTER_1(ColorBar, setPosition, const Vector2f&);
+		REDEFINE_SETTER_1(ColorBar, setActivated, bool);
+		ColorBar* setStateButtonMouseOn(const sf::Color& _cl = Color::White, ResId tsId = 0);
+		ColorBar* setStateButtonMouseOut(const sf::Color& _cl = Color::White, ResId tsId = 0);
+		ColorBar* setStateButtonPressed(const sf::Color& _cl = Color::White, ResId tsId = 0);
+		ColorBar* setStateButton(const sf::Color& _cl = Color::White, ResId tsId = 0);
+		ColorBar* setStateButtonMouse(const sf::Color& _cl = Color::White, ResId tsId = 0);
+		
 		/// getters
 
+		Color getColorMin() { return barColorMin; }
+		Color getColorMax() { return barColorMax; }
+
 		/// returns color holded by ColorBar
-		Color getColor() const;
+		Color getColorValue() const;
 
 
+		void runEvent() { eventUpdate(getColorValue()); }
 
 	protected:
 		ScrollBar* _barRed;
 		ScrollBar* _barGreen;
 		ScrollBar* _barBlue;
 		ScrollBar* _barAlpha;
-
-		Color barBaseColor;
 		function<void(Color cl)> eventUpdate;
+		
+		/// color blend
+		Color barColorMin;
+		Color barColorMax;
+		int8 bPressed = false;
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;
 		virtual void deserialiseF(std::istream& file, Res::DataScriptLoader& loader) override;
-	};*/
+	};
 
 	/*class ColorBar : public Menu
 	{

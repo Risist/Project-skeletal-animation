@@ -24,7 +24,10 @@ namespace Editor
 		void loadResources();
 
 		Gui::SetBar *guiModel, *guiTexture;
+		Gui::SetBar *guiModelA;
+
 		Graphics::ModelPart* getActualPart() const { return model.partsUpdate[guiModel->getProgres()]; }
+		
 		ResId getActualPartTsId() const 
 		{
 			int n = guiTexture->getProgres();
@@ -46,6 +49,24 @@ namespace Editor
 			}
 			return n;
 		}
+
+		int findIdOf(Graphics::ModelPart* p)
+		{
+			auto it = model.partsUpdate.begin();
+			for (int i = 0; i < model.partsUpdate.size(); ++i)
+			{
+				if (*it == p)
+					return i;
+
+				++it;
+			}
+			return -1;
+		}
+
+		Gui::Menu *guiEditorModel;
+		Gui::Menu *guiEditorAnimation;
+		void createEditorModel();
+		void createEditorAnimation();
 
 	};
 

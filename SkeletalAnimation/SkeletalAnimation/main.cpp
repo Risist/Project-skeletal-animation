@@ -21,6 +21,7 @@ void init()
 	performanceClock.restart();
 }
 
+#undef RE_DEBUG
 
 void update()
 {

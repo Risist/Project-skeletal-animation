@@ -209,10 +209,14 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\animation.txt" />
+    <Text Include="Resource\GuiTemplates\Background.txt" />
     <Text Include="Resource\GuiTemplates\Button.txt" />
+    <Text Include="Resource\GuiTemplates\ButtonBack.txt" />
     <Text Include="Resource\GuiTemplates\ButtonHalf.txt" />
     <Text Include="Resource\GuiTemplates\CheckBox.txt" />
+    <Text Include="Resource\GuiTemplates\ColorBar.txt" />
     <Text Include="Resource\GuiTemplates\SetBar.txt" />
+    <Text Include="Resource\GuiTemplates\Text.txt" />
     <Text Include="Resource\model.txt" />
     <Text Include="Resource\Resources.txt" />
   </ItemGroup>

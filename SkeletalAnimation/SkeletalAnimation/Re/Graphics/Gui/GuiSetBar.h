@@ -288,6 +288,10 @@ namespace Gui
 		sf::Color getTextColor() const { return txt.getText().getFillColor();  }
 		size_t getTextSize() const { return txt.getText().getCharacterSize();  }
 
+
+
+		void runEvent() { eventUpdateProgress(progress); }
+
 	private:
 		float32 progress{ 0 };
 		/// every what time to accept button press event

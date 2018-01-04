@@ -59,7 +59,7 @@ namespace Gui
 		value = loader.load("value", false);
 
 		setWh(halfWh*2.f);
-		stateMouseOn.deserialise_Index("on", file, loader);
+		statePressed.deserialise_Index("on", file, loader);
 		stateMouseOut.deserialise_Index("off", file, loader);
 	}
 

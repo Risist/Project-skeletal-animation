@@ -114,6 +114,9 @@ namespace Gui
 				return bScroll.getWh().x;
 		}
 
+
+		void runEvent() { eventUpdateProgress(progress); }
+
 	protected:
 
 		/// event called when the progress is changed (by buttons)
@@ -124,15 +127,22 @@ namespace Gui
 		/// movable part of the scrollbar
 		Button bScroll;
 
+	public:
+		/// to avoid grabbing multiplay scrolls at once 
+		int8 *bPressedAny = nullptr;
+	
+	protected:
 		/// progress of the bar
 		/// in range of [0,1] inclusive
 		float32 progress;
 
 		EAxis axis{horizontal};
 		int8 bPressed : 1;
-
+		
 		void updateProgress();
 		void updateButton();
+
+
 	protected:
 		/// Graphical propertites saved in files 
 		virtual void serialiseF(std::ostream& file, Res::DataScriptSaver& saver) const override;

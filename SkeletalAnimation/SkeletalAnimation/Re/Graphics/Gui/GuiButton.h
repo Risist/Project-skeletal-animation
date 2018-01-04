@@ -117,6 +117,8 @@ namespace Gui
 		sf::Mouse::Button getMouseKey() const { return mouseKey.getAsMouseButton(); }
 		sf::Mouse::Button getMouseShortKey() const { return shortKey.getAsMouseButton(); }
 		sf::Keyboard::Key getKeyboardShortKey() const { return shortKey.getAsKeyboardKey(); }
+
+		void runEvent() { eventOnPress(); }
 	protected:
 		/// mouse key activates the button only if mouse is at button
 		bool isMouseOnWindow() const;

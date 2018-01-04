@@ -46,6 +46,9 @@ namespace Graphics
 		void preUpdateOnly();
 		/// cleans up animation influence
 		void postUpdateOnly();
+		
+
+		void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states = RenderStates::Default);
 
 		/// adds display offset to model
 		void applayAnimation(const ModelDef& def);
@@ -54,14 +57,19 @@ namespace Graphics
 
 		////// setters
 		void setOrigin(const Vector2D& s) { sp.setOrigin(s + Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f)); }
-		void setTexture(ResId _tsId) { tsId = _tsId; tsInst[tsId].set(sp); }
+		void setTexture(ResId _tsId) 
+		{
+			Vector2D v = getOrigin();
+			tsId = _tsId; tsInst[tsId].set(sp);
+			setOrigin(v);
+		}
 		/// parent transform
 		void setParent(Math::Transform* s, vector<unique_ptr<ModelPart>>* _parts) { parent = s; parts = _parts; }
 		void setParent(Math::Transform* s) { parent = s; }
 
 
 		////// getters
-		Vector2D getOrigin() const { return sp.getOrigin(); }
+		Vector2D getOrigin() const { return -Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f) + sp.getOrigin(); }
 		Color getColor() const { return sp.getColor(); }
 		ResId getTextureId() const { return tsId; }
 		const Texture* getTexture() const { return sp.getTexture(); }
@@ -126,6 +134,7 @@ namespace Graphics
 		ModelPart* getChildUp() const { return childUp; }
 		ModelPart* getChildDown() const { return childDown; }
 		ModelPart* getSibling() const { return sibling; }
+		Math::Transform* getParent() const { return parent; };
 
 		void removeBranchChildUp();
 		void removeBranchChildDown();
@@ -134,6 +143,9 @@ namespace Graphics
 		void removehChildUp();
 		void removeChildDown();
 		void removeSibling();
+
+		/// prepares To remove the game object
+		void prepareToRemove();
 
 		////// utility
 

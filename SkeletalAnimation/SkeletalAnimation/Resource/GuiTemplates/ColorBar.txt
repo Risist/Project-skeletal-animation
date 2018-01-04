@@ -1,8 +1,10 @@
-<type = ColorBar; halfWhX = 100; halfWhY = 7;
-		butonSize = 15; barOffset = 18;
-		barClR = 250; barClG = 250; barClB = 250;
-		
-		onClR = 100; onClG = 75; onClB = 75;
-		outClR = 50; outClG = 50; outClB = 50;
-		pressClR = 150; pressClG = 100; pressClB = 100; 
-	>
+< whX = 220; whY = 90;
+butonSize = 15; barHole = 7.5;
+
+barMinClR = 10;	 barMinClG = 10;  barMinClB = 10;	barMinClA = 30;
+barMaxClR = 255; barMaxClG = 255; barMaxClB = 255;	barMaxClA = 255;	
+
+buttonOnClR = 100;		buttonOnClG = 75;		buttonOnClB = 75;
+buttonOutClR = 50;		buttonOutClG = 50;		buttonOutClB = 50;
+buttonPressedClR = 150;	buttonPressedClG = 100;	buttonPressedClB = 100; 
+>

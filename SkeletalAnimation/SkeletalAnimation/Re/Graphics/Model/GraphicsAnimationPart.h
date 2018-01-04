@@ -45,6 +45,11 @@ namespace Graphics
 		void sortKeystones();
 		/// removes all keystones besides default one
 		void clearKeystones();
+
+		Keystone& getKeystone(size_t id) { return keystones[id]; }
+		const Keystone& getKeystone(size_t id) const { return keystones[id]; }
+		size_t getKeystoneCount() const { return keystones.size(); }
+
 	private:
 		std::vector<Keystone> keystones;
 		ModelPart *model = nullptr;

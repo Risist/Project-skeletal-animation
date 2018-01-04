@@ -1,7 +1,6 @@
-<type =SetBar; whX = 220; whY = 25; 
-buttonLenght = 30; txtSize=20;
+<type =SetBar; whX = 220; whY = 23; 
+buttonLenght = 30; textSize=20;
 
- 
 barOnClR = 100; barOnClG = 75; barOnClB = 75;
 barOutClR = 75; barOutClG = 75; barOutClB = 75;
 barPressClR = 175; barPressClG = 125; barPressClB = 125;

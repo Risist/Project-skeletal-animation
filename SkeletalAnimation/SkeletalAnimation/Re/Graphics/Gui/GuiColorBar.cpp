@@ -3,6 +3,166 @@
 #include <Re\Graphics\Gui\GuiColorBar.h>
 #include <Re\Graphics\ResourceManager.h>
 
+namespace Gui
+{
+	ColorBar::ColorBar()
+	{
+		auto ev = [this](float& v)
+		{
+			if (eventUpdate)
+				eventUpdate(getColorValue());
+
+		};
+		_barRed = add<Gui::ScrollBar>()->setEventUpdateProgress(ev);
+		_barGreen = add<Gui::ScrollBar>()->setEventUpdateProgress(ev);
+		_barBlue = add<Gui::ScrollBar>()->setEventUpdateProgress(ev);
+		_barAlpha = add<Gui::ScrollBar>()->setEventUpdateProgress(ev);
+
+		/*_barRed->bPressedAny = 
+		_barGreen->bPressedAny = 
+		_barBlue->bPressedAny = 
+		_barAlpha->bPressedAny = &bPressed;
+		*/
+
+		barColorMin = Color(0, 0, 0, 0); 
+		barColorMax = Color(255, 255, 255, 255);
+	}
+	void ColorBar::onUpdate(RenderTarget & wnd, RenderStates states)
+	{
+		bPressed = false;
+		Menu::onUpdate(wnd, states);
+
+		Color clBack = Color(
+			clamp((float32)barColorMin.r + (float32)(barColorMax.r - barColorMin.r) * _barRed->getProgres(), 0.f, 255.f),
+			clamp((float32)barColorMin.g + (float32)(barColorMax.g - barColorMin.g) * _barGreen->getProgres(), 0.f, 255.f),
+			clamp((float32)barColorMin.b + (float32)(barColorMax.b - barColorMin.b) * _barBlue->getProgres(), 0.f, 255.f),
+			clamp((float32)barColorMin.a + (float32)(barColorMax.a - barColorMin.a) * _barAlpha ->getProgres(), 0.f, 255.f)
+		);
+		_barRed->setStateBackground(clBack);
+		_barGreen->setStateBackground(clBack);
+		_barBlue->setStateBackground(clBack);
+		_barAlpha->setStateBackground(clBack);
+	}
+	ColorBar * ColorBar::setColorValue(Color cl)
+	{
+		_barRed->setProgress(	clamp( (float32)(cl.r) / 255.f, 0.f, 1.f) );
+		_barGreen->setProgress(	clamp( (float32)(cl.g) / 255.f, 0.f, 1.f) );
+		_barBlue->setProgress(	clamp( (float32)(cl.b) / 255.f, 0.f, 1.f) );
+		_barAlpha->setProgress(	clamp( (float32)(cl.a) / 255.f, 0.f, 1.f) );
+
+		Color clBack = Color(
+			clamp( (float32)barColorMin.r + (float32)(barColorMax.r - barColorMin.r) * (float32)(cl.r), 0.f, 255.f),
+			clamp( (float32)barColorMin.g + (float32)(barColorMax.g - barColorMin.g) * (float32)(cl.g), 0.f, 255.f),
+			clamp( (float32)barColorMin.b + (float32)(barColorMax.b - barColorMin.b) * (float32)(cl.b), 0.f, 255.f),
+			clamp( (float32)barColorMin.a + (float32)(barColorMax.a - barColorMin.a) * (float32)(cl.a), 0.f, 255.f)
+		);
+		_barRed->setStateBackground(clBack);
+		_barGreen->setStateBackground(clBack);
+		_barBlue->setStateBackground(clBack);
+		_barAlpha->setStateBackground(clBack);
+
+		return this;
+	}
+	Color ColorBar::getColorValue() const
+	{
+		return Color(
+			(sf::Uint32)clamp<float>((_barRed	->getProgres() * 255.f), 0.f, 255.f),
+			(sf::Uint32)clamp<float>((_barGreen	->getProgres() * 255.f), 0.f, 255.f),
+			(sf::Uint32)clamp<float>((_barBlue	->getProgres() * 255.f), 0.f, 255.f),
+			(sf::Uint32)clamp<float>((_barAlpha	->getProgres() * 255.f), 0.f, 255.f)
+		);
+	}
+	void ColorBar::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
+	{
+		/// TODO
+	}
+	void ColorBar::deserialiseF(std::istream & file, Res::DataScriptLoader & loader)
+	{	
+		Base::deserialiseF(file, loader);
+
+		setColorValue(sf::Color::White);
+		setWh(Vector2D(halfWh.x*2, halfWh.y * 2), loader.load("barHole", 10.f), loader.load("butonSize", 10.f));
+
+		barColorMin = Color(
+			loader.load("backMinClR", 0),
+			loader.load("backMinClG", 0),
+			loader.load("backMinClB", 0),
+			loader.load("backMinClA", 0)
+		);
+		barColorMax = Color(
+			loader.load("backMaxClR", 255),
+			loader.load("backMaxClG", 255),
+			loader.load("backMaxClB", 255),
+			loader.load("backMaxClA", 255)
+		);
+
+		State buttonMouseOn; buttonMouseOn.deserialise_Index("buttonOn", file, loader);
+		State buttonMouseOut; buttonMouseOut.deserialise_Index("buttonOut", file, loader);
+		State buttonPressed; buttonPressed.deserialise_Index("buttonPressed", file, loader);
+		
+		setStateButtonMouseOn(buttonMouseOn.cl, buttonMouseOn.tsId);
+		setStateButtonMouseOut(buttonMouseOut.cl, buttonMouseOut.tsId);
+		setStateButtonPressed(buttonPressed.cl, buttonPressed.tsId);
+	}
+	ColorBar * ColorBar::setWh(const Vector2D & wh, float32 barHole, float32 buttonSize)
+	{
+		Base::setWh(wh);
+
+		float32 barOffset = wh.y * 0.25;
+		_barRed->setPosition(sf::Vector2f(0, -1.5f*barOffset));
+		_barGreen->setPosition(sf::Vector2f(0, -0.5f*barOffset));
+		_barBlue->setPosition(sf::Vector2f(0, 0.5f*barOffset));
+		_barAlpha->setPosition(sf::Vector2f(0, 1.5f*barOffset));
+
+		_barRed		->setWh(Vector2D(wh.x,	barOffset - barHole),	buttonSize);
+		_barGreen	->setWh(Vector2D(wh.x,	barOffset - barHole),	buttonSize);
+		_barBlue	->setWh(Vector2D(wh.x,	barOffset - barHole),	buttonSize);
+		_barAlpha	->setWh(Vector2D(wh.x,	barOffset - barHole),	buttonSize);
+
+		return this;
+	}
+	ColorBar * ColorBar::setStateButtonMouseOn(const sf::Color & _cl, ResId tsId)
+	{
+		_barRed		->setStateButtonMouseOn(_cl, tsId);
+		_barGreen	->setStateButtonMouseOn(_cl, tsId);
+		_barBlue	->setStateButtonMouseOn(_cl, tsId);
+		_barAlpha	->setStateButtonMouseOn(_cl, tsId);
+		return this;
+	}
+	ColorBar * ColorBar::setStateButtonMouseOut(const sf::Color & _cl, ResId tsId)
+	{
+		_barRed->setStateButtonMouseOut(_cl, tsId);
+		_barGreen->setStateButtonMouseOut(_cl, tsId);
+		_barBlue->setStateButtonMouseOut(_cl, tsId);
+		_barAlpha->setStateButtonMouseOut(_cl, tsId);
+		return this;
+	}
+	ColorBar * ColorBar::setStateButtonPressed(const sf::Color & _cl, ResId tsId)
+	{
+		_barRed->setStateButtonPressed(_cl, tsId);
+		_barGreen->setStateButtonPressed(_cl, tsId);
+		_barBlue->setStateButtonPressed(_cl, tsId);
+		_barAlpha->setStateButtonPressed(_cl, tsId);
+		return this;
+	}
+	ColorBar * ColorBar::setStateButton(const sf::Color & _cl, ResId tsId)
+	{
+		_barRed->setStateButton(_cl, tsId);
+		_barGreen->setStateButton(_cl, tsId);
+		_barBlue->setStateButton(_cl, tsId);
+		_barAlpha->setStateButton(_cl, tsId);
+		return this;
+	}
+	ColorBar * ColorBar::setStateButtonMouse(const sf::Color & _cl, ResId tsId)
+	{
+		_barRed->setStateButtonMouse(_cl, tsId);
+		_barGreen->setStateButtonMouse(_cl, tsId);
+		_barBlue->setStateButtonMouse(_cl, tsId);
+		_barAlpha->setStateButtonMouse(_cl, tsId);
+		return this;
+	}
+}
+
 /**
 namespace Gui
 {

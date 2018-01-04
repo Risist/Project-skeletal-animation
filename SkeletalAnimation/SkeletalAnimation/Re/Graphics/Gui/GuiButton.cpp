@@ -92,8 +92,8 @@ namespace Gui
 	{
 		Base::serialiseF(file, saver);
 
-		stateMouseOn.serialise_Index("mouseOn", file, saver);
-		stateMouseOut.serialise_Index("mouseOut", file, saver);
+		stateMouseOn.serialise_Index("on", file, saver);
+		stateMouseOut.serialise_Index("out", file, saver);
 		statePressed.serialise_Index("press", file, saver);
 	}
 

@@ -17,7 +17,8 @@ namespace Gui
 		/// change position of scroll button
 		bScroll.setPressEvent([this]() 
 		{
-			bPressed = true;
+			if(!bPressedAny || !*bPressedAny)
+				bPressed = true;
 		});
 	}
 
@@ -36,66 +37,19 @@ namespace Gui
 			target.draw(background);
 		}
 
-		if (bPressed)
+		if (bPressed && (!bPressedAny || *bPressedAny == false))
 		{
 			updateProgress();
 			updateButton();
 
 			if (sf::Mouse::isButtonPressed(bScroll.getMouseKey()) == false)
 				bPressed = false;
+			else if(bPressedAny)
+				(*bPressedAny) = true;
 		}
 
 		bScroll.updateActualPosition(getActualPosition());
 		bScroll.onUpdate(target, states);
-
-
-
-		/*if (needToBeUpdated)
-		{
-			eventUpdateProgress(progress);
-			needToBeUpdated = false;
-		}
-
-		if (direction == Direction::left)
-		{
-			bScroll->pos.x = -bBackground->halfWh.x + bScroll->halfWh.x
-				+ (bBackground->halfWh.x - bScroll->halfWh.x)* 2.f * progress;
-
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) == false)
-				scrollPressed = false;
-			Menu::update(target, states);
-			if (scrollPressed)
-			{
-				eventUpdateProgress(progress);
-				Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(wnd);
-				float32 minimalPosition = getPosActual().x - bBackground->halfWh.x;
-
-				progress = (mousePosition.x - minimalPosition) / (2 * bBackground->halfWh.x);
-				progress = clamp(progress, 0.f, 1.f);
-			}
-		}
-		else if (direction == Direction::up)
-		{
-			bScroll->pos.y = -bBackground->halfWh.y + bScroll->halfWh.y
-				+ (bBackground->halfWh.y - bScroll->halfWh.y)* 2.f * progress;
-
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) == false)
-				scrollPressed = false;
-			Menu::update(target, states);
-			if (scrollPressed)
-			{
-				eventUpdateProgress(progress);
-				Vector2f mousePosition = (sf::Vector2f)sf::Mouse::getPosition(wnd);
-				float32 minimalPosition = getPosActual().y - bBackground->halfWh.y;
-
-				progress = (mousePosition.y - minimalPosition) / (2 * bBackground->halfWh.y);
-				progress = clamp(progress, 0.f, 1.f);
-			}
-		}
-		else
-		{
-			cerr << "wrong direction of scrollbar: " << direction << "\n";
-		}*/
 	}
 	void ScrollBar::updateProgress()
 	{

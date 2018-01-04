@@ -25,6 +25,10 @@ namespace Graphics
 		/// @Warring! slow operation. Don't use that on every frame 
 		void attachToModel(vector<ModelPart*>& model);
 
+		AnimationPart& getPart(size_t id) { return parts[id]; }
+		const AnimationPart& getPart(size_t id) const { return parts[id]; }
+		size_t getPartCount() const { return parts.size(); }
+
 	private:
 		/// animation parts holded
 		vector<AnimationPart> parts;

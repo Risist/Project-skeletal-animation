@@ -26,14 +26,14 @@ namespace Gui
 		
 
 		
-		////// setters
-
+		
 		// set pos relative to pos of element connected to
 		void updateActualPosition(const Vector2f parentActualPosition = Vector2f())
 		{
 			actualPosition = Base::position + parentActualPosition;
 		}
 
+		////// setters
 
 		Base* setPosition(const sf::Vector2f& _new)
 		{

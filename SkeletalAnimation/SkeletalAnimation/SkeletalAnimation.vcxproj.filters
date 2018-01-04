@@ -326,5 +326,17 @@
     <Text Include="Resource\GuiTemplates\SetBar.txt">
       <Filter>Resource\GuiTemplates</Filter>
     </Text>
+    <Text Include="Resource\GuiTemplates\Background.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\ColorBar.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\Text.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
+    <Text Include="Resource\GuiTemplates\ButtonBack.txt">
+      <Filter>Resource\GuiTemplates</Filter>
+    </Text>
   </ItemGroup>
 </Project>
