@@ -48,6 +48,11 @@ namespace Graphics
 		keystones.push_back(s);
 	}
 
+	void AnimationPart::removeKeystone(size_t id)
+	{
+		keystones.erase(keystones.begin() + id);
+	}
+
 	void AnimationPart::sortKeystones()
 	{
 		std::sort(keystones.begin(), keystones.end());

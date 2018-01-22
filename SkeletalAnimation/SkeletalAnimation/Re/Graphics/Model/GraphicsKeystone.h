@@ -4,6 +4,10 @@
 
 namespace Graphics
 {
+	/*
+	Keystone of animation
+	Real animation state is blended between two keystones
+	*/
 	class Keystone
 	{
 	public:

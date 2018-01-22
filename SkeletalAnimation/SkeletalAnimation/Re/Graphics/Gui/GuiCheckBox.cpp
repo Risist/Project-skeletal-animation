@@ -26,8 +26,8 @@ namespace Gui
 
 			value = !value;
 
-			sh.setFillColor(statePressed.cl);
-			statePressed.ts.set(sh);
+			//sh.setFillColor(statePressed.cl);
+			//statePressed.ts.set(sh);
 		}
 
 		if (value)

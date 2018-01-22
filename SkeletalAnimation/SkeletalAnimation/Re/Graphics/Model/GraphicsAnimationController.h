@@ -3,6 +3,11 @@
 
 namespace Graphics
 {
+	/*
+	Main end-user animation class to use.
+	Takes care of whole system.
+	Need to 
+	*/
 	class AnimationController : public Res::ISerialisable, public AnimationStep
 	{
 	public:
@@ -28,6 +33,26 @@ namespace Graphics
 		AnimationPart& getPart(size_t id) { return parts[id]; }
 		const AnimationPart& getPart(size_t id) const { return parts[id]; }
 		size_t getPartCount() const { return parts.size(); }
+
+		void sortKeystones()
+		{
+			for (auto &it : parts)
+			{
+				it.sortKeystones();
+			}
+		}
+		void clampMinMax()
+		{
+			for (auto &it : parts)
+			{
+				it.clampKeystones(stepMin, stepMax);
+			}
+		}
+
+		/// removes all keystones from animation
+		void clearKeystones();
+		/// removes all animation parts from controller. Before next usage there is need for next attachment
+		void clear();
 
 	private:
 		/// animation parts holded

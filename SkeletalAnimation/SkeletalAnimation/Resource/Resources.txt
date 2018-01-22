@@ -1,5 +1,7 @@
 < prepathGraphics =..\\..\\..\\ReEngine\\ReEngine\\Resources\\Graphics\\;
-	prepathFont =..\\..\\..\\ReEngine\\ReEngine\\Resources\\Fonts\\; >
+	prepathFont =..\\..\\..\\ReEngine\\ReEngine\\Resources\\Fonts\\;
+	prepathPath =;
+>
 
 	< type =atlas; path =Terrain\\grass.png;		atlasId =100>
 
@@ -12,6 +14,9 @@
 	< type =atlas; path =shiveil\\axe_blade.png;	atlasId =206>
 	
 	< type =atlas; path =Terrain\\namiot.png;	atlasId =301>
+	
+	< type =path; id = 1; path =Resource\\model.txt;>
+	< type =path; id = 2; path =Resource\\animation.txt;>
 
 
 

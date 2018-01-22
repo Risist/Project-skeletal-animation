@@ -9,11 +9,11 @@ namespace Editor
 
 		////
 		model.setParent(&view);
-		model.deserialise("Resource\\model.txt");
+		model.deserialise(pathInst[1]);
 		model.createOrder();
 
 		animation.attachToModel(model.partsUpdate);
-		animation.deserialise("Resource\\animation.txt");
+		animation.deserialise(pathInst[2]);
 
 
 		guiEditorModel = Gui::gui.add<Gui::Menu>();
@@ -25,18 +25,28 @@ namespace Editor
 
 	Game::State * StateModel::onUpdate(sf::Time dt)
 	{
-		//animation.updateReturn();
 		cam.display(wnd);
-		//animation.update();
 		model.draw(cam);
 
-		getActualPart()->drawBoundingBox(cam);
+		/// currently selected model part
+		if (guiEditorModel->isActivated())
+			getActualPart()->drawBoundingBox(cam);
+		else
+			getActualPartA()->getModelPart()->drawBoundingBox(cam);
+
+		/// animation play
+		if (guiPlayReturn->getValue())
+			animation.updateReturn();
+		else if (guiPlayRestart->getValue())
+			animation.updateRestart();
+		else
+			animation.setInRange(0);
+
+		animation.update();
+
+
 
 		Gui::gui.onUpdate(wnd, RenderStates::Default);
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-			return new StateModel;
-
 		return nullptr;
 	}
 
@@ -88,6 +98,15 @@ namespace Editor
 				increase /= 10.f;
 			return increase;
 		};
+		auto increaseLow = []()
+		{
+			float increase = 0.1f;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+				increase *= 10.f;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+				increase /= 10.f;
+			return increase;
+		};
 
 
 		y = 20.f;
@@ -109,7 +128,8 @@ namespace Editor
 
 		auto buttonSaveAnimation = guiEditorAnimation->add<Gui::NamedButton>("Resource\\GuiTemplates\\ButtonHalf.txt")->setPosition({ x, y })
 			->setName("save")
-			; x += distX * 2;
+			->setPressEvent([this]() { animation.serialise(pathInst[2] ); })
+			; x += distX * 2.5;
 
 
 		auto buttonModel = guiEditorAnimation->add<Gui::NamedButton>("Resource\\GuiTemplates\\ButtonHalf.txt")->setPosition({ x, y })
@@ -123,6 +143,36 @@ namespace Editor
 			guiModel->runEvent();
 		}); x += distX;
 
+		////////////////
+
+		y = 70.f;
+		x = 870.f;
+
+		auto guiSpeed = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
+			->setBarName("speed: ")
+			->setIncreaseValue(increaseLow)
+			->setInitialValue(5.f)
+			->setProgress(animation.speed)
+			; y += distY;
+
+		auto guiStepMin = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
+			->setBarName("stepMin: ")
+			->setIncreaseValue(increaseBig)
+			->setInitialValue(0)
+			->setProgress(animation.stepMin)
+			; y += distY;
+
+		auto guiStepMax = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
+			->setBarName("stepMax: ")
+			->setIncreaseValue(increaseBig)
+			->setInitialValue(100)
+			->setProgress(animation.stepMax)
+			; y += distY;
+
+		
+		
+		/////
+
 		y = 70.f;
 		x = 120.f;
 
@@ -133,11 +183,19 @@ namespace Editor
 			->setShortKeyMinus(sf::Keyboard::Q)
 			; y += distY;
 
-		auto guiKeystone = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
+		guiKeystone = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
 			->setBarName("Keystone: ")
-			->setValueRange(0, animation.getPart(guiModelA->getProgres()).getKeystoneCount() )
+			->setValueRange(0, getActualPartA()->getKeystoneCount()-1 )
 			->setShortKeyPlus(sf::Keyboard::T)
 			->setShortKeyMinus(sf::Keyboard::R)
+			; y += distY;
+
+		auto guiPartStep = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
+			->setBarName("step: ")
+			->setValueRange(animation.stepMin, animation.stepMax)
+			->setInitialValue(0.f)
+			->setProgress(getActualKeystone()->time)
+			->setIncreaseValue(increaseOne)
 			; y += distY;
 
 		auto guiPosX = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
@@ -153,13 +211,13 @@ namespace Editor
 			->setShortKeyMinus(sf::Keyboard::W)
 			; y += distY;
 		auto guiScaleX = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
-			->setBarName("scaleX: ")->setInitialValue(1.f)
+			->setBarName("scaleX: ")->setInitialValue(0.f)
 			->setIncreaseValue(increaseSmall)
 			->setShortKeyPlus(sf::Keyboard::L)
 			->setShortKeyMinus(sf::Keyboard::J)
 			; y += distY;
 		auto guiScaleY = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\Setbar.txt")->setPosition({ x, y })
-			->setBarName("scaleY: ")->setInitialValue(1.f)
+			->setBarName("scaleY: ")->setInitialValue(0.f)
 			->setIncreaseValue(increaseSmall)
 			->setShortKeyPlus(sf::Keyboard::I)
 			->setShortKeyMinus(sf::Keyboard::K)
@@ -182,44 +240,173 @@ namespace Editor
 		guiEditorAnimation->add<Gui::NamedButton>()->setWh({ 110,30 })->setPosition({ x + distY * 2, y })->setGlobalState(Color(100, 100, 100, 150), 0)
 			->setName("Play Restart")->setTextSize(18);
 		y += distY;
-		guiEditorAnimation->add<Gui::CheckBox>("Resource\\GuiTemplates\\CheckBox.txt")->setPosition({ x - distY * 2, y });
-		guiEditorAnimation->add<Gui::CheckBox>("Resource\\GuiTemplates\\CheckBox.txt")->setPosition({ x + distY * 2, y });
+		guiPlayReturn  = guiEditorAnimation->add<Gui::CheckBox>("Resource\\GuiTemplates\\CheckBox.txt")->setPosition({ x - distY * 2, y });
+		guiPlayRestart = guiEditorAnimation->add<Gui::CheckBox>("Resource\\GuiTemplates\\CheckBox.txt")->setPosition({ x + distY * 2, y });
 		y += distY;
 
 		auto guiColorSwitch = guiEditorAnimation->add<Gui::NamedButton>("Resource\\GuiTemplates\\ButtonBack.txt")->setPosition({ x, y })->setName("Color");
 		y += distY;
-		auto guiColorRed = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setActivated(false)->setPosition({ x, y })
+		auto guiColorRed = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setPosition({ x, y })
 			->setBarName("Red: ")->setIncreaseValue(increaseBig)
 			->setShortKeyPlus(sf::Keyboard::Num2)
 			->setShortKeyMinus(sf::Keyboard::Num1)
-			->setValueRange(0, 255)
-			->setInitialValue(255)
+			->setValueRange(-255, 255)
+			->setInitialValue(0)
+			->setProgress(getActualKeystone()->def.color.a)
 			; y += distY;
 
-		auto guiColor = guiEditorAnimation->add<Gui::ColorBar>("Resource\\GuiTemplates\\ColorBar.txt")->setPosition({ x, y });
+		auto guiColor = guiEditorAnimation->add<Gui::ColorBar>("Resource\\GuiTemplates\\ColorBar.txt")->setActivated(false)->setPosition({ x, y });
 
-		auto guiColorGreen = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setActivated(false)->setPosition({ x, y })
+		auto guiColorGreen = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setPosition({ x, y })
 			->setBarName("Green: ")->setIncreaseValue(increaseBig)
 			->setShortKeyPlus(sf::Keyboard::Num4)
 			->setShortKeyMinus(sf::Keyboard::Num3)
-			->setValueRange(0, 255)
-			->setInitialValue(255)
+			->setValueRange(-255, 255)
+			->setInitialValue(0)
+			->setProgress(getActualKeystone()->def.color.g)
 			; y += distY;
-		auto guiColorBlue = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setActivated(false)->setPosition({ x, y })
+		auto guiColorBlue = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setPosition({ x, y })
 			->setBarName("Blue: ")->setIncreaseValue(increaseBig)
 			->setShortKeyPlus(sf::Keyboard::Num6)
 			->setShortKeyMinus(sf::Keyboard::Num5)
-			->setValueRange(0, 255)
-			->setInitialValue(255)
+			->setValueRange(-255, 255)
+			->setInitialValue(0)
+			->setProgress(getActualKeystone()->def.color.b)
 			; y += distY;
-		auto guiColorAlpha = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setActivated(false)->setPosition({ x, y })
+		auto guiColorAlpha = guiEditorAnimation->add<Gui::SetBar>("Resource\\GuiTemplates\\SetBar.txt")->setPosition({ x, y })
 			->setBarName("Alpha: ")->setIncreaseValue(increaseBig)
 			->setShortKeyPlus(sf::Keyboard::Num8)
 			->setShortKeyMinus(sf::Keyboard::Num7)
-			->setValueRange(0, 255)
-			->setInitialValue(255)
+			->setValueRange(-255, 255)
+			->setInitialValue(0)
+			->setProgress(getActualKeystone()->def.color.a)
 			; y += distY;
 
+
+		auto updateButtons = ([=](float& v) {
+
+			guiModelA->setValueRange(0, model.partsUpdate.size() - 1);
+			guiKeystone->setValueRange(0, getActualPartA()->getKeystoneCount() - 1);
+
+			guiPosX->setProgress(getActualKeystone()->def.position.x);
+			guiPosY->setProgress(getActualKeystone()->def.position.y);
+
+			guiScaleX->setProgress(getActualKeystone()->def.scale.x);
+			guiScaleY->setProgress(getActualKeystone()->def.scale.y);
+
+			guiRotation->setProgress(getActualKeystone()->def.rotation.asDegree());
+			guiMineRotation->setProgress(getActualKeystone()->def.mineRotation.asDegree());
+
+			guiColorRed->setProgress(getActualKeystone()->def.color.r);
+			guiColorGreen->setProgress(getActualKeystone()->def.color.g);
+			guiColorBlue->setProgress(getActualKeystone()->def.color.b);
+			guiColorAlpha->setProgress(getActualKeystone()->def.color.a);
+
+			guiPartStep->setProgress(getActualKeystone()->time)
+				->setValueRange(animation.stepMin, animation.stepMax);
+		});
+		guiModelA->setUpdateProgressEvent([=](float& v) {
+			guiKeystone->setProgress(0);
+			updateButtons(v); 
+		});
+
+		guiKeystone->setUpdateProgressEvent(updateButtons);
+
+		guiPosX			->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.position.x = v; });
+		guiPosY			->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.position.y = v; });
+		guiScaleX		->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.scale.x = v; });
+		guiScaleY		->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.scale.y = v; });
+		guiRotation		->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.rotation = Degree(v); });
+		guiMineRotation	->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.mineRotation = Degree(v); });
+
+		guiColorRed		->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.color.r = v; });
+		guiColorGreen	->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.color.g = v; });
+		guiColorBlue	->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.color.b = v; });
+		guiColorAlpha	->setUpdateProgressEvent([=](float& v) {getActualKeystone()->def.color.a = v; });
+
+		/*guiColor		->setEvent([=](Color cl){ 
+			getActualKeystone()->def.color.r = cl.r;
+			getActualKeystone()->def.color.g = cl.g;
+			getActualKeystone()->def.color.b = cl.b;
+			getActualKeystone()->def.color.a = cl.a;
+		});*/
+
+		/*guiColorSwitch->setPressEvent([=]() {
+			guiColor->setActivated(!(guiColor->isActivated()));
+			guiColorRed->setActivated(!(guiColorRed->isActivated()));
+			guiColorGreen->setActivated(!(guiColorGreen->isActivated()));
+			guiColorBlue->setActivated(!(guiColorBlue->isActivated()));
+			guiColorAlpha->setActivated(!(guiColorAlpha->isActivated()));
+
+			guiColor->setColorValue(Color(
+				getActualPart()->baseDef.color.r * 255 / 2,
+				getActualPart()->baseDef.color.g * 255 / 2,
+				getActualPart()->baseDef.color.b * 255 / 2,
+				getActualPart()->baseDef.color.a * 255 / 2
+			));
+
+			guiColorRed->setProgress(getActualPart()->baseDef.color.r);
+			guiColorGreen->setProgress(getActualPart()->baseDef.color.g);
+			guiColorBlue->setProgress(getActualPart()->baseDef.color.b);
+			guiColorAlpha->setProgress(getActualPart()->baseDef.color.a);
+
+		});*/
+
+		guiStepMin->setUpdateProgressEvent([this,guiPartStep](float&v) {
+			animation.stepMin = v;
+			guiPartStep->setValueRange(animation.stepMin, animation.stepMax);
+		});
+		guiStepMax->setUpdateProgressEvent([this, guiPartStep](float&v) {
+			animation.stepMax = v;
+			guiPartStep->setValueRange(animation.stepMin, animation.stepMax);
+		});
+
+
+
+		guiSpeed->setUpdateProgressEvent([this](float&v) {
+			animation.speed = v;
+		});
+
+		guiPartStep->setUpdateProgressEvent([this](float& v) {
+			getActualKeystone()->time = v;
+
+			animation.sortKeystones();
+		});
+
+		buttonLoadAnimation->setPressEvent([this,updateButtons, guiStepMin, guiStepMax, guiSpeed ]() 
+		{
+			animation.clearKeystones();
+			animation.deserialise(pathInst[2]);
+
+			guiModelA->setProgress(0);
+			guiKeystone->setProgress(0);
+
+			guiSpeed->setProgress(animation.speed);
+			guiStepMin->setProgress(animation.stepMin);
+			guiStepMax->setProgress(animation.stepMax);
+			
+			float f;
+			updateButtons(f);
+		});
+
+		buttonAddKeystone->setPressEvent([this, updateButtons]() {
+			getActualPartA()->addKeystone(Graphics::Keystone(getActualKeystone()->def, getActualKeystone()->time) );
+			animation.sortKeystones();
+
+			float f;
+			updateButtons(f);
+			guiKeystone->setProgress(guiKeystone->getProgres() + 1);
+		});
+
+		buttonDelKeystone->setPressEvent([this, updateButtons]() {
+			if (guiKeystone->getProgres() == 0)
+				return;
+			getActualPartA()->removeKeystone(guiKeystone->getProgres() );
+
+			guiKeystone->setProgress(guiKeystone->getProgres() - 1);
+			float f;
+			updateButtons(f);
+		});
 
 
 	}
@@ -284,7 +471,7 @@ namespace Editor
 
 		auto buttonSaveModel = guiEditorModel->add<Gui::NamedButton>("Resource\\GuiTemplates\\ButtonHalf.txt")->setPosition({ x, y })
 			->setName("save")
-			; x += distX*2;
+			; x += distX*1.5;
 
 
 		auto buttonAnimation = guiEditorModel->add<Gui::NamedButton>("Resource\\GuiTemplates\\ButtonHalf.txt")->setPosition({ x, y })
@@ -296,7 +483,8 @@ namespace Editor
 				guiModelA->setProgress(guiModel->getProgres());
 				guiModelA->setValueRange(0, model.partsUpdate.size() - 1);
 		}); x += distX;
-		////////////////
+		
+		/////////////
 
 		y = 70.f;
 		x = 120.f;
@@ -528,14 +716,14 @@ namespace Editor
 		});
 
 		buttonLoadModel->setPressEvent([&, modelChangeEvent]() {
-			model.deserialise("Resource\\model.txt");
+			model.deserialise(pathInst[1]); // "Resource\\model.txt");
 			model.createOrder();
 			guiModel->setProgress(0);
 			guiModel->setValueRange(0, model.partsUpdate.size() - 1);
 			modelChangeEvent(y);
 		});
 		buttonSaveModel->setPressEvent([&]() {
-			model.serialise("Resource\\model.txt");
+			model.serialise(pathInst[1]); // "Resource\\model.txt");
 		});
 
 		guiColorSwitch->setPressEvent([=]() {

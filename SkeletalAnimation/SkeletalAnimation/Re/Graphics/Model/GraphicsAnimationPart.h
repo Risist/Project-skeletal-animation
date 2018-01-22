@@ -41,6 +41,9 @@ namespace Graphics
 		/// never try to apply multiplay Keystones with the same @time 
 		void addKeystone(const Keystone& s);
 
+		/// removes keystone with given id
+		void removeKeystone(size_t id);
+
 		/// sorts keystones by their step. Call it before any update
 		void sortKeystones();
 		/// removes all keystones besides default one
@@ -49,6 +52,12 @@ namespace Graphics
 		Keystone& getKeystone(size_t id) { return keystones[id]; }
 		const Keystone& getKeystone(size_t id) const { return keystones[id]; }
 		size_t getKeystoneCount() const { return keystones.size(); }
+
+		void clampKeystones(Step_t min, Step_t max)
+		{
+			for (auto it : keystones)
+				it.time = clamp(it.time, min, max);
+		}
 
 	private:
 		std::vector<Keystone> keystones;

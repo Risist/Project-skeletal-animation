@@ -24,10 +24,13 @@ namespace Editor
 		void loadResources();
 
 		Gui::SetBar *guiModel, *guiTexture;
-		Gui::SetBar *guiModelA;
+		Gui::SetBar *guiModelA, *guiKeystone;
+		Gui::CheckBox *guiPlayReturn, *guiPlayRestart;
 
-		Graphics::ModelPart* getActualPart() const { return model.partsUpdate[guiModel->getProgres()]; }
-		
+		inline Graphics::ModelPart*		getActualPart() const	{ return model.partsUpdate[guiModel->getProgres()]; }
+		inline Graphics::AnimationPart* getActualPartA() const	{ return &(Graphics::AnimationPart&)animation.getPart(guiModelA->getProgres()); }
+		inline Graphics::Keystone*		getActualKeystone() const { return &getActualPartA()->getKeystone(guiKeystone->getProgres()); }
+
 		ResId getActualPartTsId() const 
 		{
 			int n = guiTexture->getProgres();

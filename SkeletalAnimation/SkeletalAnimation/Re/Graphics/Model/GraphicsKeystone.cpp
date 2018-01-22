@@ -4,8 +4,12 @@ namespace Graphics
 {
 	ModelDef Keystone::countOffset(Step_t step, const Keystone& k1, const Keystone& k2)
 	{
-		assert(k1.time != k2.time);
+		//assert(k1.time != k2.time);
 
+		if (k1.time == k2.time)
+		{
+			return ModelDef::zero;
+		}else
 		if (k1.time < k2.time)
 		{
 			return k1.def + (k2.def - k1.def) * 

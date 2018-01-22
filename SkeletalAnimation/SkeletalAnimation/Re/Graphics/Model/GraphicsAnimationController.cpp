@@ -38,6 +38,17 @@ namespace Graphics
 			parts.back().setStepPtr(&step);
 		}
 	}
+	void AnimationController::clearKeystones()
+	{
+		for (auto&it : parts)
+		{
+			it.clearKeystones();
+		}
+	}
+	void AnimationController::clear()
+	{
+		parts.clear();
+	}
 	void AnimationController::serialiseF(std::ostream & file, Res::DataScriptSaver & saver) const
 	{
 		AnimationStep::serialiseF(file, saver);
@@ -46,8 +57,11 @@ namespace Graphics
 		for (int modelId = 0; modelId < parts.size(); ++modelId)
 			for (int keyId = 0; keyId < parts[modelId].keystones.size(); ++keyId)
 		{
-			saver.save("model", modelId);
 			auto &it = parts[modelId].keystones[keyId];
+			if (it.time == 0)
+				continue;
+
+			saver.save("model", modelId);
 			saver.save("time", it.time);
 
 			saver.save("posX", it.def.position.x, ModelDef::zero.position.x);

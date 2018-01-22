@@ -1,2 +1,4 @@
-<ts=100;clR=163;clG=212;>
+<ts=100;>
+<ud=up;ts=100;scaleX=0.99;scaleY=0.99;clR=155;clG=155;clB=155;clA=105;>
+<\>
 <\>

@@ -47,7 +47,7 @@ namespace Graphics
 		/// cleans up animation influence
 		void postUpdateOnly();
 		
-
+		/// displays an bounding box of holded sprite. Mainly for debug/ Editor purposes
 		void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states = RenderStates::Default);
 
 		/// adds display offset to model
@@ -56,6 +56,7 @@ namespace Graphics
 		void applyPose(const ModelDef& def) { baseDef = def; };
 
 		////// setters
+		/// sets center of rotation
 		void setOrigin(const Vector2D& s) { sp.setOrigin(s + Vector2D(sp.getTextureRect().width*0.5f, sp.getTextureRect().height*0.5f)); }
 		void setTexture(ResId _tsId) 
 		{
@@ -85,6 +86,7 @@ namespace Graphics
 
 		Math::Transform* parent = nullptr;
 
+		/// not used
 		using Math::Transform::setPosition;
 		using Math::Transform::setRotation;
 		using Math::Transform::setScale;
@@ -201,7 +203,8 @@ namespace Graphics
 		void draw(sf::RenderTarget& target, sf::RenderStates states = RenderStates::Default);
 
 
-
+		/// initialize iterated vectors
+		/// do not use draw function until call of this one
 		void createOrder()
 		{
 			partsRendering.clear();

@@ -27,6 +27,8 @@ using ResId = uint16;
 /// first line contains prepaths for each resource type:
 ///	<prepathGraphics =; prepathFont =; prepathScript =; prepathResource =; prepathPath =;>
 /// prepath is a path of directory when the type of resource should be searched for
+///		prepathGraphics =;
+///		prepathFont =;
 ///		prepathResource =;	another resource loading file, used to split up resource definitions
 ///		prepathPath =;		cashed paths to some resources
 ///

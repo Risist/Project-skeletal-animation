@@ -16,6 +16,8 @@ public:
 	Color_f(float32 _clR=0, float32 _clG=0, float32 _clB=0, float32 _clA=0)
 		:r(_clR), g(_clG), b(_clB), a(_clA){}
 
+	__forceinline sf::Color toSf() { return Color((sf::Uint8)r, (sf::Uint8)g, (sf::Uint8)b, (sf::Uint8)a); };
+
 	/// color data [0, 255]
 	/// holded that way because of animations 
 	float32 r, g, b, a;
